@@ -1,14 +1,22 @@
 name: CI
 
 on:
-  push:
+  workflow_dispatch:
+    inputs:
+      package:
+        required: true
+        description: 'E.g., boost/1.77.0'
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    container: conanio/gcc9
     steps:
-      - uses: actions/checkout@v2
-
-      - name: Run a one-line script
-        run: echo Hello, world!
+      - run: conan install ${{ github.event.inputs.package }} --build=missing
+      - #    runs-on: ubuntu-latest
+        #
+        #    steps:
+        #      - uses: actions/checkout@v2
+        #
+        #      - name: Run a one-line script
+      #        run: echo Hello, world!
