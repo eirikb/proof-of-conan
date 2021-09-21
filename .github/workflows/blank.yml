@@ -12,7 +12,10 @@ jobs:
     runs-on: ubuntu-latest
     container: conanio/gcc9
     steps:
-      - run: conan install ${{ github.event.inputs.package }} --build=missing
+      - run: pwd
+      - run: who
+      - run: ls
+#      - run: conan install ${{ github.event.inputs.package }} --build=missing
        #    runs-on: ubuntu-latest
         #
         #    steps:
