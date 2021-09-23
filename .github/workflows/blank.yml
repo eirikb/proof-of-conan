@@ -17,20 +17,35 @@ on:
         required: true
         default: 'always'
         description: 'Build or cache?. E.g., always, never, missing, outdated'
+      abi:
+        required: true
+        default: 'new'
+        description: 'New or old ABI?. E.g., new, old'
+
 
 jobs:
+  prep:
+    runs-on: ubuntu-latest
+    outputs:
+      conancmd: ${{ steps.step1.outputs.test }}
+    steps:
+      - id: step1
+        if: github.event.inputs.build == 'always'
+        run: echo "::set-output name=test::conan install ${{ github.event.inputs.package }} --build"
+      - id: step1
+        if: github.event.inputs.build == 'always'
+        run: echo "::set-output name=test::conan install ${{ github.event.inputs.package }} --build=${{ github.event.inputs.build }}"
+
   build1:
     if: github.event.inputs.container != ''
+    needs: prep
     runs-on: ubuntu-latest
     steps:
-      - run: docker run --rm -t ${{ github.event.inputs.container }} conan --build=${{ github.event.inputs.build }} install ${{ github.event.inputs.package }}
+      - run: docker run --rm -t ${{ github.event.inputs.container }} ${{ needs.prep.outputs.conancmd }}
 
   build2:
     if: github.event.inputs.container == ''
     runs-on: ${{ github.event.inputs.os }}
     steps:
       - run: pip3 install conan
-      - run: conan install ${{ github.event.inputs.package }} --build
-        if: github.event.inputs.build == 'always'
-      - run: conan install ${{ github.event.inputs.package }} --build=${{ github.event.inputs.build }}
-        if: github.event.inputs.build != 'always'
+      - run: ${{ needs.prep.outputs.conancmd }}
