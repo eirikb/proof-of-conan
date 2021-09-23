@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
-          docker run --rm -t conanio/gcc9 conan install boost/1.77.0
+          docker run --rm -t conanio/gcc9 conan install boost/1.77.0@
 #      - run: conan install ${{ github.event.inputs.package }} --build=missing
        #    runs-on: ubuntu-latest
         #
