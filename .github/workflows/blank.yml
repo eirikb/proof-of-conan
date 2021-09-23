@@ -15,8 +15,8 @@ on:
         description: 'Package. E.g., boost/1.77.0@'
       build:
         required: true
-        default: 'always'
-        description: 'Build or cache?. E.g., always, never, missing'
+#        default: 'always'
+        description: 'Build or cache?. E.g., never, missing, outdated (blank means always)'
 
 jobs:
   build1:
