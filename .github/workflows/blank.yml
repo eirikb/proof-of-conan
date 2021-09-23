@@ -13,6 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
+          pip3 install conan
           conan install boost/1.77.0@ --build
 #      - run: |
 #          docker run --rm -t conanio/gcc9 conan install boost/1.77.0@ --build
