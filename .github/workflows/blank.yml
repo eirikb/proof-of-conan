@@ -1,7 +1,7 @@
 name: CI
 
 on:
-  workflow_dispatch:
+  repository_dispatch:
     inputs:
       os:
         required: true
