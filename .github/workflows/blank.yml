@@ -14,7 +14,7 @@ on:
         required: true
         description: 'Package. E.g., boost/1.77.0@'
       build:
-        required: true
+#        required: true
 #        default: 'always'
         description: 'Build or cache?. E.g., never, missing, outdated (blank means always)'
 
