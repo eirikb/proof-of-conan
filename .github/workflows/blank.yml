@@ -46,6 +46,7 @@ jobs:
 
   build2:
     if: github.event.inputs.container == ''
+    needs: prep
     runs-on: ${{ github.event.inputs.os }}
     steps:
       - run: pip3 install conan
