@@ -30,11 +30,12 @@ jobs:
       conancmd: ${{ steps.step1.outputs.test }}
     steps:
       - id: step1
-        if: github.event.inputs.build == 'always'
-        run: echo "::set-output name=test::conan install ${{ github.event.inputs.package }} --build"
-      - id: step1
-        if: github.event.inputs.build == 'always'
-        run: echo "::set-output name=test::conan install ${{ github.event.inputs.package }} --build=${{ github.event.inputs.build }}"
+        run: |
+          if [ "${{ github.event.inputs.build}}" == "always" ]; then
+            echo "::set-output name=test::conan install ${{ github.event.inputs.package }} --build"
+          else
+            echo "::set-output name=test::conan install ${{ github.event.inputs.package }} --build=${{ github.event.inputs.build }}"
+          fi
 
   build1:
     if: github.event.inputs.container != ''
