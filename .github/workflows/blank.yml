@@ -32,15 +32,16 @@ jobs:
       - id: step1
         run: |
           if [ "${{ github.event.inputs.abi}}" == "new" ]; then
-            abi="-s compiler.libcxx=stdlibc++11"
+            abi="-s compiler.libcxx=libstdc++11"
           else
-            abi="-s compiler.libcxx=stdlibc++"
+            abi="-s compiler.libcxx=libstdc++"
           fi
           if [ "${{ github.event.inputs.build}}" == "always" ]; then
-            echo "::set-output name=test::conan install ${{ github.event.inputs.package }} --build $abi"
+            build="--build"
           else
-            echo "::set-output name=test::conan install ${{ github.event.inputs.package }} --build=${{ github.event.inputs.build }} $abi"
+            build="--build=${{ github.event.inputs.build }}"
           fi
+          echo "::set-output name=test::conan install ${{ github.event.inputs.package }} $build $abi"
 
   build1:
     if: github.event.inputs.container != ''
