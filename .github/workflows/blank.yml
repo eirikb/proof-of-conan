@@ -31,10 +31,15 @@ jobs:
     steps:
       - id: step1
         run: |
-          if [ "${{ github.event.inputs.build}}" == "always" ]; then
-            echo "::set-output name=test::conan install ${{ github.event.inputs.package }} --build"
+          if [ "${{ github.event.inputs.abi}}" == "new" ]; then
+            abi="-s compiler.libcxx=stdlibc++11"
           else
-            echo "::set-output name=test::conan install ${{ github.event.inputs.package }} --build=${{ github.event.inputs.build }}"
+            abi="-s compiler.libcxx=stdlibc++"
+          fi
+          if [ "${{ github.event.inputs.build}}" == "always" ]; then
+            echo "::set-output name=test::conan install ${{ github.event.inputs.package }} --build $abi"
+          else
+            echo "::set-output name=test::conan install ${{ github.event.inputs.package }} --build=${{ github.event.inputs.build }} $abi"
           fi
 
   build1:
