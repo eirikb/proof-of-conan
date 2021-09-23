@@ -30,4 +30,4 @@ jobs:
     runs-on: ${{ github.event.inputs.os }}
     steps:
       - run: pip3 install conan
-      - run: conan --build=${{ github.event.inputs.build }} install ${{ github.event.inputs.package }}
+      - run: conan install ${{ github.event.inputs.package }} --build=${{ github.event.inputs.build }}
