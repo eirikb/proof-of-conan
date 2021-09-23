@@ -1,18 +1,19 @@
 name: CI
 
 on:
-  workflow_dispatch:
-    inputs:
-      package:
-        required: true
-        description: 'E.g., boost/1.77.0'
+  push
+#  workflow_dispatch:
+#    inputs:
+#      package:
+#        required: true
+#        description: 'E.g., boost/1.77.0'
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - run: |
-          docker run --rm -it conanio/gcc9 conan install ${{ github.event.inputs.package }}
+          docker run --rm conanio/gcc9 conan install boost/1.77.0
 #      - run: conan install ${{ github.event.inputs.package }} --build=missing
        #    runs-on: ubuntu-latest
         #
