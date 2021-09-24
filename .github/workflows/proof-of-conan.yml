@@ -27,7 +27,7 @@ jobs:
     steps:
       - id: step1
         run: |
-          if [[ "${{ github.event.inputs.conancmd }}" =~ [^A-Za-z0-9\&./=_:?-] ]]; then
+          if [[ "${{ github.event.inputs.conancmd }}" =~ [^A-Za-z0-9@+-=/.\ ] ]]; then
             echo "NOT ALLOWED"
           else
               echo "ALLOWED"
