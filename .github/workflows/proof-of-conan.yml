@@ -1,0 +1,59 @@
+name: Proof of Conan
+
+on:
+  workflow_dispatch:
+    inputs:
+      os:
+        required: true
+        default: 'ubuntu-latest'
+        description: 'OS. E.g., ubuntu-latest, windows-latest, macos-latest'
+      container:
+        required: false
+        description: 'Container (only for Linux). E.g., conanio/gcc9-arm7hf'
+      package:
+        required: true
+        description: 'Package. E.g., boost/1.77.0@'
+      build:
+        required: true
+        default: 'always'
+        description: 'Build or cache?. E.g., always, never, missing, outdated'
+      abi:
+        required: true
+        default: 'new'
+        description: 'New or old ABI?. E.g., new, old'
+
+
+jobs:
+  prep:
+    runs-on: ubuntu-latest
+    outputs:
+      conancmd: ${{ steps.step1.outputs.test }}
+    steps:
+      - id: step1
+        run: |
+          if [ "${{ github.event.inputs.abi}}" == "new" ]; then
+            abi="-s compiler.libcxx=libstdc++11"
+          else
+            abi="-s compiler.libcxx=libstdc++"
+          fi
+          if [ "${{ github.event.inputs.build}}" == "always" ]; then
+            build="--build"
+          else
+            build="--build=${{ github.event.inputs.build }}"
+          fi
+          echo "::set-output name=test::conan install ${{ github.event.inputs.package }} $build $abi"
+
+  build1:
+    if: github.event.inputs.container != ''
+    needs: prep
+    runs-on: ubuntu-latest
+    steps:
+      - run: docker run --rm -t ${{ github.event.inputs.container }} ${{ needs.prep.outputs.conancmd }}
+
+  build2:
+    if: github.event.inputs.container == ''
+    needs: prep
+    runs-on: ${{ github.event.inputs.os }}
+    steps:
+      - run: pip3 install conan
+      - run: ${{ needs.prep.outputs.conancmd }}
