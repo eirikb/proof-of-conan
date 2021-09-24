@@ -34,6 +34,7 @@ jobs:
             ("" | *[!abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890./@\-\ \"=+\']*)
               echo "NOT ALLOWED"
             (*)
+              echo "ALLOWED"
               echo "::set-output name=test::${{ github.event.inputs.conancmd }}"
           esac
 
