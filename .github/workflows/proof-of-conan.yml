@@ -32,7 +32,7 @@ jobs:
           # https://unix.stackexchange.com/a/498744
           case "${{ github.event.inputs.conancmd }}" in
             ("" | *[!abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890./@\-\ =+\']*)
-              echo "NOT ALLOWED";;
+              echo "NOT ALLOWED" && exit 1;;
             (*)
               echo "::set-output name=test::${{ github.event.inputs.conancmd }}";;
           esac
