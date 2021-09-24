@@ -1,4 +1,4 @@
-name: CI
+name: Proof of Conan
 
 on:
   workflow_dispatch:
