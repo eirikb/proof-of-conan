@@ -27,9 +27,10 @@ jobs:
       conancmd: ${{ steps.step1.outputs.test }}
     steps:
       - id: step1
+        name: Whitelist command
         run: |
           # https://unix.stackexchange.com/a/498744
-          case "${{ github.event.inputs.conancmd }}" --build" in
+          case "${{ github.event.inputs.conancmd }}" in
             ("" | *[!abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890./@\-\ \"=+\']*)
               echo "NOT ALLOWED"
             (*)
