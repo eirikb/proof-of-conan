@@ -20,6 +20,7 @@ on:
 
 jobs:
 
+  # An effort to whitelist some characters
   prep:
     runs-on: ubuntu-latest
     outputs:
@@ -35,6 +36,7 @@ jobs:
           fi
 
   build-container:
+    name: ${{ github.event.inputs.conancmd }}
     needs: prep
     if: github.event.inputs.container != ''
     runs-on: ${{ github.event.inputs.os }}
@@ -42,6 +44,7 @@ jobs:
       - run: docker run --rm -t "${{ github.event.inputs.container }}" conan install ${{ needs.prep.outputs.conancmd }}
 
   build-os:
+    name: ${{ github.event.inputs.conancmd }}
     needs: prep
     if: github.event.inputs.container == ''
     runs-on: ${{ github.event.inputs.os }}
