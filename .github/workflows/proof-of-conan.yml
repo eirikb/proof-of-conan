@@ -21,14 +21,12 @@ on:
 jobs:
   build-container:
     if: github.event.inputs.container != ''
-    needs: prep
     runs-on: ${{ github.event.inputs.os }}
     steps:
       - run: docker run --rm -t ${{ github.event.inputs.container }} contan install ${{ github.event.inputs.conancmd }}
 
   build-os:
     if: github.event.inputs.container == ''
-    needs: prep
     runs-on: ${{ github.event.inputs.os }}
     steps:
       - run: pip3 install conan
