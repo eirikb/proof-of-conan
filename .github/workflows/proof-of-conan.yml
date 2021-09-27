@@ -16,6 +16,12 @@ on:
       conancmd:
         required: true
         description: 'Conan install command'
+      toolchain:
+        required: false
+        description: 'Toolchain package'
+      toolchainos:
+        required: false
+        description: 'Toolchain os, because has to manually kick a file'
 
 
 jobs:
@@ -50,4 +56,18 @@ jobs:
     runs-on: ${{ github.event.inputs.os }}
     steps:
       - run: pip3 install conan
+      - name: toolchain windows
+        if: ${{ github.event.inputs.toolchain != '' && github.event.inputs.toolchainos == 'windows' }}
+        run: |
+          echo "Oh my, a toolchain is set: ${{ github.event.inputs.toolchain }}"
+          echo "WINDOWS"
+          conan install "${{ github.event.inputs.toolchain }} -g virtualenv"
+          activate.bat
+      - name: toolchain linux or macos
+        if: ${{ github.event.inputs.toolchain != '' && ( github.event.inputs.toolchainos == 'macos' || github.event.inputs.toolchainos == 'linux' ) }}
+        run: |
+          echo "Oh my, a toolchain is set: ${{ github.event.inputs.toolchain }}"
+          echo "linux or macos"
+          conan install "${{ github.event.inputs.toolchain }} -g virtualenv"
+          source activate.sh
       - run: conan install ${{ needs.prep.outputs.conancmd }}
