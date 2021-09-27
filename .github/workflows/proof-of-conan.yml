@@ -61,6 +61,7 @@ jobs:
           conan install "${{ github.event.inputs.toolchain }}" -g virtualenv
           . .\activate.ps1
           gcc --version
+          conan install ${{ needs.prep.outputs.conancmd }}
       - name: toolchain linux or macos
         if: ${{ github.event.inputs.toolchain != '' && ( github.event.inputs.toolchainos == 'macos' || github.event.inputs.toolchainos == 'linux' ) }}
         run: |
@@ -69,4 +70,7 @@ jobs:
           conan install "${{ github.event.inputs.toolchain }} -g virtualenv"
           source activate.sh
           gcc --version
-      - run: conan install ${{ needs.prep.outputs.conancmd }}
+          conan install ${{ needs.prep.outputs.conancmd }}
+      - name: without toolchain
+        if: ${{ github.event.inputs.toolchain == '' }}
+        run: conan install ${{ needs.prep.outputs.conancmd }}
