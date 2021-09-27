@@ -58,7 +58,7 @@ jobs:
         run: |
           echo "Oh my, a toolchain is set: ${{ github.event.inputs.toolchain }}"
           echo "WINDOWS"
-          conan install "${{ github.event.inputs.toolchain }} -g virtualenv"
+          conan install "${{ github.event.inputs.toolchain }}" -g virtualenv
           activate.bat
       - name: toolchain linux or macos
         if: ${{ github.event.inputs.toolchain != '' && ( github.event.inputs.toolchainos == 'macos' || github.event.inputs.toolchainos == 'linux' ) }}
