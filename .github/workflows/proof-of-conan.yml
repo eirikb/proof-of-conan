@@ -53,25 +53,19 @@ jobs:
     runs-on: ${{ github.event.inputs.os }}
     steps:
       - run: pip3 install conan
-      - name: toolchain windows ${{ github.event.inputs.conancmd }}
+      - name: 'Windows toolchain: ${{ github.event.inputs.conancmd }}'
         if: ${{ github.event.inputs.toolchain != '' && github.event.inputs.toolchainos == 'windows' }}
         run: |
-          echo "Oh my, a toolchain is set: ${{ github.event.inputs.toolchain }}"
-          echo "WINDOWS"
           conan install "${{ github.event.inputs.toolchain }}" -g virtualenv
           . .\activate.ps1
-          gcc --version
           conan profile new default --detect --force
           conan install ${{ needs.prep.outputs.conancmd }}
-      - name: toolchain linux or macos
+      - name: 'Linux/Macos toolchain: ${{ github.event.inputs.conancmd }}'
         if: ${{ github.event.inputs.toolchain != '' && ( github.event.inputs.toolchainos == 'macos' || github.event.inputs.toolchainos == 'linux' ) }}
         run: |
-          echo "Oh my, a toolchain is set: ${{ github.event.inputs.toolchain }}"
-          echo "linux or macos"
-          conan install "${{ github.event.inputs.toolchain }} -g virtualenv"
+          conan install "${{ github.event.inputs.toolchain }}" -g virtualenv
           source activate.sh
-          gcc --version
           conan install ${{ needs.prep.outputs.conancmd }}
-      - name: without toolchain
+      - name: 'No toolchain: ${{ github.event.inputs.conancmd }}'
         if: ${{ github.event.inputs.toolchain == '' }}
         run: conan install ${{ needs.prep.outputs.conancmd }}
