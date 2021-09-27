@@ -10,9 +10,6 @@ on:
       container:
         required: false
         description: 'Container (only for Linux). E.g., conanio/gcc9-arm7hf'
-      package:
-        required: true
-        description: 'Package. E.g., boost/1.77.0@'
       conancmd:
         required: true
         description: 'Conan install command'
