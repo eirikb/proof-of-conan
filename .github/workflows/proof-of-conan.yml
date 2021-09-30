@@ -70,6 +70,11 @@ jobs:
           Write-Host "3..."
           g++ --version
           which g++
+          Write-Host "Update profile..."
+          conan profile new default --detect --force
+          Write-Host "4..."
+          g++ --version
+          which g++
           conan install ${{ needs.prep.outputs.conancmd }}
       - name: 'Linux/Macos toolchain: ${{ github.event.inputs.conancmd }}'
         if: ${{ github.event.inputs.toolchain != '' && ( github.event.inputs.toolchainos == 'macos' || github.event.inputs.toolchainos == 'linux' ) }}
