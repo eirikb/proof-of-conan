@@ -24,6 +24,7 @@ jobs:
             (*)
               echo "::set-output name=test::${{ matrix.conancmd }}";;
           esac
+        shell: bash
       - run: pip3 install conan
       - name: 'Install toolchain'
         if: ${{ matrix.toolchain != '' }}
