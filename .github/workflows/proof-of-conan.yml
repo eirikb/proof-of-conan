@@ -63,7 +63,7 @@ jobs:
           Write-Host "2..."
           cmake --version
           Write-Host "Activating..."
-          . .\activate.ps1
+          . activate.ps1
           Write-Host "Activate done"
           Write-Host "3..."
           cmake --version
