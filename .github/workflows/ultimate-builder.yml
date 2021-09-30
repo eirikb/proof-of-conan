@@ -41,5 +41,5 @@ jobs:
       - run: which g++
       - run: conan install ${{ matrix.conancmd }}
         if: ${{ matrix.container == '' }}
-      - run: docker run --rm -it "${{ matrix.container }}" conan install ${{ matrix.conancmd }}
+      - run: docker run --rm -i "${{ matrix.container }}" conan install ${{ matrix.conancmd }}
         if: ${{ matrix.container != '' }}
