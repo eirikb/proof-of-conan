@@ -40,3 +40,6 @@ jobs:
         run: conan profile new default --detect --force
       - run: which g++
       - run: conan install ${{ matrix.conancmd }}
+        if: ${{ matrix.container == '' }}
+      - run: docker run --rm -it "${{ matrix.container }}" conan install ${{ matrix.conancmd }}
+        if: ${{ matrix.container != '' }}
