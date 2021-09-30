@@ -11,9 +11,29 @@ on:
 jobs:
   build:
     runs-on: ${{ matrix.os }}
-    container: {{ matrix.container }}
     strategy:
       matrix: ${{fromJson(github.event.inputs.targets)}}
 
     steps:
       - run: echo ${{ matrix }}
+      - run: |
+          # https://unix.stackexchange.com/a/498744
+          case "${{ matrix.conancmd }}" in
+            ("" | *[!abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890./@\-\ =+\'_:]*)
+              echo "NOT ALLOWED" && exit 1;;
+            (*)
+              echo "::set-output name=test::${{ matrix.conancmd }}";;
+          esac
+      - name: 'Install toolchain'
+        if: ${{ matrix.toolchain != '' }}
+        run: conan install "${{ matrix.toolchain }}" -g virtualenv
+      - name: 'Enable toolchain in Windows'
+        if: ${{ matrix.toolchain != '' && matrix.toolchainos == 'windows' }}
+        run: . .\activate.ps1
+      - name: 'Enable toolchain in Linux'
+        if: ${{ matrix.toolchain != '' && matrix.toolchainos == 'lunix' }}
+        run: source activate.sh
+      - name: 'Reset profile'
+        if: ${{ matrix.toolchain != '' }}
+        run: conan profile new default --detect --force
+      - run: conan install ${{ matrix.conancmd }}
