@@ -11,6 +11,7 @@ on:
 jobs:
   build:
     runs-on: ${{ matrix.os }}
+    container: {{ matrix.container }}
     strategy:
       matrix: ${{fromJson(github.event.inputs.targets)}}
 
