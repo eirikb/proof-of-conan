@@ -1,4 +1,4 @@
-name: Proof of Conan
+name: Ultimate builder
 
 on:
   workflow_dispatch:
