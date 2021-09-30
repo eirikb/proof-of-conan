@@ -56,12 +56,17 @@ jobs:
       - name: 'Windows toolchain: ${{ github.event.inputs.conancmd }}'
         if: ${{ github.event.inputs.toolchain != '' && github.event.inputs.toolchainos == 'windows' }}
         run: |
+          Write-Host "1..."
+          cmake --version
           conan install "${{ github.event.inputs.toolchain }}" -g virtualenv
           ls
+          Write-Host "2..."
+          cmake --version
           Write-Host "Activating..."
           . .\activate.ps1
           Write-Host "Activate done"
-          conan profile new default --detect --force
+          Write-Host "3..."
+          cmake --version
           conan install ${{ needs.prep.outputs.conancmd }}
       - name: 'Linux/Macos toolchain: ${{ github.event.inputs.conancmd }}'
         if: ${{ github.event.inputs.toolchain != '' && ( github.event.inputs.toolchainos == 'macos' || github.event.inputs.toolchainos == 'linux' ) }}
