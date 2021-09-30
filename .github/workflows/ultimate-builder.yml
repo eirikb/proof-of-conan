@@ -1,11 +1,12 @@
 name: Proof of Conan
 
 on:
-  workflow_dispatch:
-    inputs:
-      targets:
-        required: true
-        description: 'JSON of all your targets'
+  push
+#  workflow_dispatch:
+#    inputs:
+#      targets:
+#        required: true
+#        description: 'JSON of all your targets'
 
 
 jobs:
