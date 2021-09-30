@@ -37,6 +37,6 @@ jobs:
         run: source activate.sh
       - name: 'Reset profile'
         if: ${{ matrix.toolchain != '' }}
-        run: which g++
         run: conan profile new default --detect --force
+      - run: which g++
       - run: conan install ${{ matrix.conancmd }}
