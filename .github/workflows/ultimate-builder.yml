@@ -9,7 +9,7 @@ on:
 
 
 jobs:
-  build:
+  _:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix: ${{fromJson(github.event.inputs.targets)}}
