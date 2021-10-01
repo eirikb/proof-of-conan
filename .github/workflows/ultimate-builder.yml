@@ -3,6 +3,10 @@ name: Ultimate builder
 on:
   workflow_dispatch:
     inputs:
+      repository:
+        required: true
+      path:
+        required: true
       targets:
         required: true
         description: 'JSON of all your targets'
