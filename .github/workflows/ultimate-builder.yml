@@ -13,6 +13,7 @@ on:
         required: true
         description: 'JSON of all your targets'
 
+jobs:
   checkout:
     runs-on: ubuntu-latest
     steps:
