@@ -32,6 +32,7 @@ jobs:
 
   _:
     runs-on: ${{ matrix.os }}
+    needs: checkout
     strategy:
       matrix: ${{fromJson(github.event.inputs.targets)}}
 
