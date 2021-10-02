@@ -22,7 +22,7 @@ jobs:
       - run: |
           # https://unix.stackexchange.com/a/498744
           case "${{ matrix.conancmd }}" in
-            ("" | *[!abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890./@\-\ =+\'_:]*)
+            ("" | *[!abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890./@\-\ =+\'_:\.]*)
               echo "NOT ALLOWED" && exit 1;;
             (*)
               echo "::set-output name=test::${{ matrix.conancmd }}";;
