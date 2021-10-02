@@ -14,10 +14,10 @@ on:
         description: 'JSON of all your targets'
 
 jobs:
+  # Yes I understand this check doesn't mean much when I'm anyway going
+  # to run random python-scripts, but at least those need an account.
   verify:
     runs-on: ubuntu-latest
-    # Yes I understand this check doesn't mean much when I'm anyway going
-    # to run random python-scripts, but at least those need an account.
     - run: |
         # https://unix.stackexchange.com/a/498744
         case "${{ matrix.conancmd }}" in
