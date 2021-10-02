@@ -28,7 +28,7 @@ jobs:
       - uses: actions/upload-artifact@v1
         with:
           name: package
-    #        path: .
+          path: .
 
   _:
     runs-on: ${{ matrix.os }}
