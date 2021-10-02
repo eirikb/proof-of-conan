@@ -58,7 +58,7 @@ jobs:
       - run: pip3 install conan
       - name: 'Install toolchain'
         if: ${{ matrix.toolchain != '' }}
-        run: conan install "${{ matrix.toolchain }}" -g virtualenv
+        run: conan "${{ matrix.toolchain }}" -g virtualenv
       - name: 'Enable toolchain in Windows'
         if: ${{ matrix.toolchain != '' && matrix.toolchainos == 'windows' }}
         run: . .\activate.ps1
@@ -69,7 +69,7 @@ jobs:
         if: ${{ matrix.toolchain != '' }}
         run: conan profile new default --detect --force
       - run: which g++
-      - run: conan install ${{ matrix.conancmd }}
+      - run: conan ${{ matrix.conancmd }}
         if: ${{ matrix.container == '' }}
-      - run: docker run --rm -i "${{ matrix.container }}" conan install ${{ matrix.conancmd }}
+      - run: docker run --rm -i "${{ matrix.container }}" conan ${{ matrix.conancmd }}
         if: ${{ matrix.container != '' }}
