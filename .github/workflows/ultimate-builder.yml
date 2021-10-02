@@ -13,23 +13,7 @@ on:
         required: true
         description: 'JSON of all your targets'
 
-jobs:
-  verify:
-    runs-on: ubuntu-latest
-    steps:
-      # Yes I understand this check doesn't mean much when I'm anyway going
-      # to run random python-scripts, but at least those need an account.
-      - run: |
-          # https://unix.stackexchange.com/a/498744
-          case "${{ matrix.conancmd }}" in
-            ("" | *[!abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890./@\-\ =+\'_:\.]*)
-              echo "NOT ALLOWED" && exit 1;;
-            (*)
-              echo "::set-output name=test::${{ matrix.conancmd }}";;
-          esac
-
   checkout:
-    needs: verify
     runs-on: ubuntu-latest
     steps:
       - run: echo here we go
@@ -50,6 +34,16 @@ jobs:
     strategy:
       matrix: ${{fromJson(github.event.inputs.targets)}}
     steps:
+      # Yes I understand this check doesn't mean much when I'm anyway going
+      # to run random python-scripts, but at least those need an account.
+      - run: |
+          # https://unix.stackexchange.com/a/498744
+          case "${{ matrix.conancmd }}" in
+            ("" | *[!abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890./@\-\ =+\'_:\.]*)
+              echo "NOT ALLOWED" && exit 1;;
+            (*)
+              echo "::set-output name=test::${{ matrix.conancmd }}";;
+          esac
       - uses: actions/download-artifact@v1
         with:
           name: package
