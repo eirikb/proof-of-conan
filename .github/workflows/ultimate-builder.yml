@@ -26,9 +26,9 @@ jobs:
           path: ${{ github.event.inputs.path }}
 
       - uses: actions/upload-artifact@v1
-      with:
-        name: package
-#        path: .
+        with:
+          name: package
+    #        path: .
 
   _:
     runs-on: ${{ matrix.os }}
