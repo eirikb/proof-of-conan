@@ -23,12 +23,11 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: ${{ github.event.inputs.repository }}
-          path: ${{ github.event.inputs.path }}
 
       - uses: actions/upload-artifact@v1
         with:
           name: package
-          path: .
+          path: ${{ github.event.inputs.path }}
 
   _:
     runs-on: ${{ matrix.os }}
