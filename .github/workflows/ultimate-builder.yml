@@ -45,6 +45,7 @@ jobs:
             (*)
               echo "::set-output name=test::${{ matrix.conancmd }}";;
           esac
+        shell: bash
       - uses: actions/download-artifact@v1
         with:
           name: package
