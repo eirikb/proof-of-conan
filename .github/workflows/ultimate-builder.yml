@@ -3,19 +3,40 @@ name: Ultimate builder
 on:
   workflow_dispatch:
     inputs:
+      repository:
+        required: true
+        description: 'x'
+      path:
+        required: true
+        description: 'x'
       targets:
         required: true
         description: 'JSON of all your targets'
 
-
 jobs:
+  checkout:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo here we go
+      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          repository: ${{ github.event.inputs.repository }}
+
+      - uses: actions/upload-artifact@v1
+        with:
+          name: package
+          path: ${{ github.event.inputs.path }}
+
   _:
     runs-on: ${{ matrix.os }}
+    needs: checkout
     strategy:
       matrix: ${{fromJson(github.event.inputs.targets)}}
-
     steps:
-      - run: echo ${{ matrix }}
+      # Yes I understand this check doesn't mean much when I'm anyway going
+      # to run random python-scripts, but at least those need an account.
       - run: |
           # https://unix.stackexchange.com/a/498744
           case "${{ matrix.conancmd }}" in
@@ -25,10 +46,17 @@ jobs:
               echo "::set-output name=test::${{ matrix.conancmd }}";;
           esac
         shell: bash
+      - uses: actions/download-artifact@v1
+        with:
+          name: package
+      - run: du -a
+        shell: bash
+      - run: echo ${{ matrix }}
+      - run: mv package/all/* .
       - run: pip3 install conan
       - name: 'Install toolchain'
         if: ${{ matrix.toolchain != '' }}
-        run: conan install "${{ matrix.toolchain }}" -g virtualenv
+        run: conan "${{ matrix.toolchain }}" -g virtualenv
       - name: 'Enable toolchain in Windows'
         if: ${{ matrix.toolchain != '' && matrix.toolchainos == 'windows' }}
         run: . .\activate.ps1
@@ -39,7 +67,7 @@ jobs:
         if: ${{ matrix.toolchain != '' }}
         run: conan profile new default --detect --force
       - run: which g++
-      - run: conan install ${{ matrix.conancmd }}
+      - run: conan ${{ matrix.conancmd }}
         if: ${{ matrix.container == '' }}
-      - run: docker run --rm -i "${{ matrix.container }}" conan install ${{ matrix.conancmd }}
+      - run: docker run --rm -i "${{ matrix.container }}" conan ${{ matrix.conancmd }}
         if: ${{ matrix.container != '' }}
