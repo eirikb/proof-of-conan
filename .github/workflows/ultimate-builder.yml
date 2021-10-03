@@ -52,7 +52,7 @@ jobs:
       - run: du -a
         shell: bash
       - run: echo ${{ matrix }}
-      - run: mv package/* .
+      - run: mv package/all/* .
       - run: pip3 install conan
       - name: 'Install toolchain'
         if: ${{ matrix.toolchain != '' }}
