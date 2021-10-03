@@ -28,6 +28,7 @@ jobs:
         with:
           name: package
           path: ${{ github.event.inputs.path }}
+          ref: ${{ github.event.input.branch }}
 
   _:
     runs-on: ${{ matrix.os }}
