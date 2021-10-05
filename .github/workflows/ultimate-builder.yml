@@ -6,6 +6,9 @@ on:
       repository:
         required: true
         description: 'x'
+      path:
+        required: true
+        description: 'x'
       targets:
         required: true
         description: 'JSON of all your targets'
