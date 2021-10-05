@@ -24,8 +24,9 @@ jobs:
       - uses: actions/upload-artifact@v1
         with:
           name: repo
+          path: .
           #          path: ${{ github.event.inputs.path }}
-          ref: ${{ github.event.input.branch }}
+#          ref: ${{ github.event.input.branch }}
 
   _:
     runs-on: ${{ matrix.os }}
