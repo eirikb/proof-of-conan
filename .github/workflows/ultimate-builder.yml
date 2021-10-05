@@ -26,19 +26,13 @@ jobs:
 
       - uses: actions/upload-artifact@v1
         with:
-          name: package
-          path: ${{ github.event.inputs.path }}
+          name: repo
+          #          path: ${{ github.event.inputs.path }}
           ref: ${{ github.event.input.branch }}
-
-  versions:
-    runs-on: ubuntu-latest
-    needs: checkout
-    strategy:
-      matrix: ${{fromJson(github.event.inputs.versions)}}
 
   _:
     runs-on: ${{ matrix.os }}
-    needs: versions
+    needs: checkout
     strategy:
       matrix: ${{fromJson(github.event.inputs.targets)}}
     steps:
@@ -55,8 +49,10 @@ jobs:
         shell: bash
       - uses: actions/download-artifact@v1
         with:
-          name: package
+          name: repo
       - run: du -a
+        shell: bash
+      - run: mv ${{ matrix.path }}/* .
         shell: bash
       - run: echo ${{ matrix }}
       - run: mv package/* .
