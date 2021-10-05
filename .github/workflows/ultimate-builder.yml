@@ -51,10 +51,9 @@ jobs:
           name: repo
       - run: du -a
         shell: bash
-      - run: mv ${{ matrix.path }}/* .
+      - run: mv repo/${{ matrix.path }}/* .
         shell: bash
       - run: echo ${{ matrix }}
-      - run: mv package/* .
       - run: pip3 install conan
       - name: 'Install toolchain'
         if: ${{ matrix.toolchain != '' }}
