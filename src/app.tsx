@@ -206,7 +206,7 @@ init(
       </fieldset>
 
       <div>
-        <h3>Jobs</h3>
+        <h3>Build jobs</h3>
         <table>
           <thead>
             <tr>
@@ -231,7 +231,7 @@ init(
 
       <div>
         <button>
-          <b>GO!</b>
+          <b>Start!</b>
         </button>
       </div>
     </form>

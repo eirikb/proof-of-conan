@@ -46,8 +46,7 @@ export async function start() {
   const res = await fetch("https://proof-of-conan-ultimate.azureedge.net", {
     method: "POST",
     body: JSON.stringify({
-      // TODO: REF
-      ref: "feature/ultimate",
+      ref: "main",
       inputs: {
         repository: data.repository,
         path: data.path,
