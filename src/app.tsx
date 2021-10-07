@@ -1,70 +1,5 @@
-import domdom from "@eirikb/domdom";
-import defaultTargets from "./targets";
-
-interface Target {
-  os: string;
-  container: string;
-  toolchain: string;
-  cmd: string;
-  enabled: boolean;
-}
-
-interface Job {
-  os: string;
-  container: string;
-  toolchain: string;
-  conancmd: string;
-  path: string;
-}
-
-interface Version {
-  tag: string;
-  path: string;
-  selected: boolean;
-}
-
-interface Preset {
-  name: string;
-  targets: Target[];
-}
-
-interface Data {
-  lookupInfo: string;
-  repoUrl: string;
-  formHidden: boolean;
-  repository?: string;
-  path?: string;
-  branch?: string;
-  package?: string;
-  versions: Version[];
-  jobs: Job[];
-  status: string;
-  done: boolean;
-  presets: Preset[];
-  preset: string;
-  targets: Target[];
-}
-
-const presets: Preset[] = [
-  { name: "Default", targets: defaultTargets as Target[] },
-];
-try {
-  presets.push(...JSON.parse(localStorage.getItem("presets")));
-} catch (_) {}
-
-const { React, init, data, on, don, path } = domdom<Data>({
-  lookupInfo: "",
-  repoUrl:
-    "https://github.com/conan-io/conan-center-index/tree/master/recipes/zlib",
-  formHidden: true,
-  versions: [],
-  jobs: [],
-  status: "",
-  done: false,
-  presets,
-  preset: presets[0].name,
-  targets: [],
-});
+import { React, init, data, don, on, path } from "./domdom";
+import { lookup, start } from "./api";
 
 function updateCmds() {
   data.jobs = (data.versions || [])
@@ -96,85 +31,28 @@ on("+!*-", path().preset, (preset) => {
   data.targets = data.presets.find((p) => p.name === preset).targets;
 });
 
-async function lookup(e: Event) {
-  e.preventDefault();
-  data.lookupInfo = "Looking up...";
-  if (data.repoUrl.startsWith("https://github.com")) {
-    let parts = data.repoUrl.split("/");
-    if (parts[parts.length - 1].includes(".")) parts = parts.slice(0, -1);
-
-    data.repository = parts.slice(3, 5).join("/");
-    data.path = parts.slice(7, parts.length).join("/");
-    data.package = parts[parts.length - 1];
-    data.branch = parts[6];
-    data.lookupInfo = "Looking up versions...";
-    data.formHidden = true;
-    const res = await fetch(
-      `https://raw.githubusercontent.com/${parts
-        .slice(3)
-        .filter((p) => p !== "blob" && p !== "tree")
-        .join("/")}/config.yml`
-    );
-    data.lookupInfo = `Got ${res.status} ${res.statusText} from GitHub`;
-    if (res.status >= 200 && res.status < 400) {
-      data.versions = (await res.text())
-        .split(/\n/g)
-        .reduce((res: Version[], line) => {
-          const v = line.match(/^ +"(\d+.*)"+/);
-          const f = line.match(/^ +folder: *"(.*)"/);
-          if (v !== null) {
-            res.push({ tag: v[1], path: "", selected: true });
-          } else if (f != null) {
-            res[res.length - 1].path = f[1];
-          }
-          return res;
-        }, []);
-      data.formHidden = false;
-    }
-  } else {
-    data.lookupInfo = "Must be a GitHub repo";
-  }
-}
-
-// TODO: Remove
-// @ts-ignore
-lookup({
-  preventDefault() {},
-});
-
-async function start(e: Event) {
-  e.preventDefault();
-  data.status = "Starting...";
-  data.done = false;
-  const res = await fetch("https://proof-of-conan-ultimate.azureedge.net", {
-    method: "POST",
-    body: JSON.stringify({
-      // TODO: REF
-      ref: "feature/ultimate",
-      inputs: {
-        repository: data.repository,
-        path: data.path,
-        targets: JSON.stringify({
-          include: data.jobs,
-        }),
-      },
-    }),
-  });
-  data.status = `Done: ${res.status} ${res.statusText}`;
-  data.done = true;
-}
-
 init(
   document.body,
   <div>
-    <form onSubmit={lookup}>
+    <form
+      onSubmit={async (e) => {
+        e.preventDefault();
+        await lookup();
+      }}
+    >
       URL to your package in a GitHub repository:
       <input bind={path().repoUrl.$path} type="text" size="80" />
       <br />
       <button>Lookup</button>
     </form>
     <span>{don(path().lookupInfo)}</span>
-    <form hidden={don(path().formHidden)} onSubmit={start}>
+    <form
+      hidden={don(path().formHidden)}
+      onSubmit={async (e) => {
+        e.preventDefault();
+        await start();
+      }}
+    >
       <fieldset>
         <legend>Package</legend>
         <div>
@@ -190,7 +68,7 @@ init(
         </div>
         <div>
           <label>
-            Repository branch
+            Branch
             <br />
             <input
               required
