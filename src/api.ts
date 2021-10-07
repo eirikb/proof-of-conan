@@ -25,11 +25,11 @@ export async function lookup() {
         .split(/\n/g)
         .reduce((res: Version[], line) => {
           const v = line.match(/^ +"(\d+.*)"+/);
-          const f = line.match(/^ +folder: *"(.*)"/);
+          const f = line.match(/^ +folder: (.*)/);
           if (v !== null) {
             res.push({ tag: v[1], path: "", selected: true });
           } else if (f != null) {
-            res[res.length - 1].path = f[1];
+            res[res.length - 1].path = f[1].replace(/"/g, "");
           }
           return res;
         }, []);
