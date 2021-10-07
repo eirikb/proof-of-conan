@@ -70,5 +70,5 @@ jobs:
       - run: which g++
       - run: conan ${{ matrix.conancmd }}
         if: ${{ matrix.container == '' }}
-      - run: docker run --rm -i "${{ matrix.container }}" conan ${{ matrix.conancmd }}
+      - run: docker run --rm -i -v "$PWD:/build" -w /build "${{ matrix.container }}" conan ${{ matrix.conancmd }}
         if: ${{ matrix.container != '' }}
