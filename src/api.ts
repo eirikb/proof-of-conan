@@ -1,5 +1,5 @@
 import { data } from "./domdom";
-import { Version } from "./types";
+import yaml from "js-yaml";
 
 export async function lookup() {
   data.lookupInfo = "Looking up...";
@@ -21,18 +21,13 @@ export async function lookup() {
     );
     data.lookupInfo = `Got ${res.status} ${res.statusText} from GitHub`;
     if (res.status >= 200 && res.status < 400) {
-      data.versions = (await res.text())
-        .split(/\n/g)
-        .reduce((res: Version[], line) => {
-          const v = line.match(/^ +"(\d+.*)"+/);
-          const f = line.match(/^ +folder: (.*)/);
-          if (v !== null) {
-            res.push({ tag: v[1], path: "", selected: true });
-          } else if (f != null) {
-            res[res.length - 1].path = f[1].replace(/"/g, "");
-          }
-          return res;
-        }, []);
+      data.versions = Object.entries(yaml.load(await res.text()).versions).map(
+        ([tag, v]) => ({
+          tag,
+          path: (v as any).folder as string,
+          selected: true,
+        })
+      );
       data.formHidden = false;
     }
   } else {
