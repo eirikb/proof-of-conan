@@ -70,5 +70,6 @@ jobs:
       - run: which g++
       - run: conan ${{ matrix.conancmd }}
         if: ${{ matrix.container == '' }}
-      - run: docker run --rm -i -v "$PWD:/build" -w /build "${{ matrix.container }}" conan ${{ matrix.conancmd }}
+        # Must be root? How else to use /build, and can't use ~ since we don't know the user
+      - run: docker run --rm -i -v "$PWD:/build" -u root -w /build "${{ matrix.container }}" conan ${{ matrix.conancmd }}
         if: ${{ matrix.container != '' }}
