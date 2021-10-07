@@ -43,7 +43,7 @@ export async function lookup() {
 export async function start() {
   data.status = "Starting...";
   data.done = false;
-  const res = await fetch("https://proof-of-conan-ultimate.azureedge.net", {
+  const res = await fetch("https://proof-of-conan.azureedge.net", {
     method: "POST",
     body: JSON.stringify({
       ref: "main",

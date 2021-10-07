@@ -44,6 +44,14 @@ init(
       <input bind={path().repoUrl.$path} type="text" size="80" />
       <br />
       <button>Lookup</button>
+      <div>
+        See{" "}
+        <a href="https://github.com/conan-io/conan-center-index/tree/master/recipes">
+          conan-center-index
+        </a>{" "}
+        or <a href="https://conan.io/center/">ConanCenter</a>
+        for packages. Yes you can point to your own repo.
+      </div>
     </form>
     <span>{don(path().lookupInfo)}</span>
     <form
@@ -203,6 +211,14 @@ init(
             </tr>
           </tbody>
         </table>
+        <div>
+          For example docker containers please see
+          <a href="https://github.com/conan-io/conan-docker-tools">
+            conan-docker-tools
+          </a>{" "}
+          and
+          <a href="https://github.com/dockcross/dockcross">dockcross</a>
+        </div>
       </fieldset>
 
       <div>
@@ -236,13 +252,22 @@ init(
       </div>
     </form>
     <div>{don(path().status)}</div>
-    <div>
+    <h3>
       <a
-        href="https://github.com/eirikb/proof-of-conan/actions/workflows/ultimate-builder.yml"
+        href="https://github.com/eirikb/proof-of-conan/actions/workflows/proof-of-conan.yml"
+        target="_blank"
         hidden={don(path().done).map((d) => !d)}
       >
+        Open builds
+      </a>
+    </h3>
+    <div>
+      <a href="https://github.com/eirikb/proof-of-conan/actions/workflows/proof-of-conan.yml">
         View all builds
       </a>
+    </div>
+    <div>
+      <a href="https://github.com/eirikb/proof-of-conan">Repo</a>
     </div>
   </div>
 );
