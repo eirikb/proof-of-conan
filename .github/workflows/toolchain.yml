@@ -1,0 +1,44 @@
+name: Proof of Conan
+
+on:
+  push:
+
+jobs:
+  checkout:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo here we go
+      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          repository: conan-io/conan-center-index
+
+      - uses: actions/upload-artifact@v1
+        with:
+          name: repo
+          path: recipes/boost
+
+  _:
+    runs-on: ubuntu-latest
+    needs: checkout
+    steps:
+      - uses: actions/download-artifact@v1
+        with:
+          name: repo
+      - run: du -a
+        shell: bash
+      - run: mv repo/all/0.71.0* .
+        shell: bash
+      - run: echo ${{ matrix }}
+      - run: pip3 install conan
+      - name: 'Install toolchain'
+        run: conan install "mingw-w64/8.1" -g virtualenv
+      - name: 'Enable toolchain'
+        run: |
+          . .\activate.ps1
+          which g++
+      - name: 'Reset profile'
+        run: conan profile new default --detect --force
+      - run: which g++
+      - run: conan create . boost/0.71.0@ --build=missing
