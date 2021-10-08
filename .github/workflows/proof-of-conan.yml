@@ -68,7 +68,7 @@ jobs:
             source activate.sh
           fi
           which g++
-          conan ${{ matrix.conancmd }
+          conan ${{ matrix.conancmd }}
         name: conan ${{ matrix.conancmd }}
         shell: bash
 
