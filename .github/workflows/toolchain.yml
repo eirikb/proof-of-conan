@@ -33,7 +33,7 @@ jobs:
       - run: echo ${{ matrix }}
       - run: pip3 install conan
       - name: 'Install toolchain'
-        run: conan install "mingw-w64/8.1" -g virtualenv
+        run: conan install "mingw-w64/8.1@" -g virtualenv
       - name: 'Enable toolchain'
         run: |
           . .\activate.ps1
