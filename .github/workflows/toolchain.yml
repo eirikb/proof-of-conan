@@ -67,3 +67,7 @@ jobs:
           where cmake
           cmake --verison
           which cmake
+      - run: |
+          cmake --verison
+          which cmake
+        shell: bash
