@@ -23,7 +23,7 @@ jobs:
     needs: checkout
     strategy:
       matrix:
-        includes:
+        include:
           - os: ubuntu-latest
             cmd: --build=missing
           - os: windows-latest
