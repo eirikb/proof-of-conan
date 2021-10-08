@@ -40,4 +40,4 @@ jobs:
       - name: 'Reset profile'
         run: conan profile new default --detect --force
       - run: which g++
-      - run: conan create . boost/0.71.0@ --build=missing
+      - run: conan create . boost/1.71.0@ --build=missing
