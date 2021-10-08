@@ -36,7 +36,9 @@ jobs:
           conan install "mingw-w64/8.1@" -g virtualenv
           source activate.sh
           conan profile new default --detect --force
-          sed -i 's/\(.build_requires.\)/\1\nmingw-w64\/8.1/' ~/.conan/profiles/default
+          sed -i 's/.build_requires.//' ~/.conan/profiles/default
+          echo "[build_requires]" >> ~/.conan/profiles/default
+          echo "mingw-w64/8.1" >> ~/.conan/profiles/default
           conan profile show default
         shell: bash
       - run: conan create . boost/1.71.0@ --build=missing
