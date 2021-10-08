@@ -61,5 +61,5 @@ jobs:
           echo "mingw-w64/8.1" >> ~/.conan/profiles/default
           conan profile show default
         shell: bash
-        if: ${{ matrix.toolchain !== '' }}
+        if: ${{ matrix.toolchain != '' }}
       - run: conan create . boost/1.71.0@ ${{ matrix.cmd }}
