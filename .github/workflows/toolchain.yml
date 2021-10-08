@@ -28,7 +28,7 @@ jobs:
           name: repo
       - run: du -a
         shell: bash
-      - run: mv repo/all/0.71.0* .
+      - run: mv repo/all/* .
         shell: bash
       - run: echo ${{ matrix }}
       - run: pip3 install conan
