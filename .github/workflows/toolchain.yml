@@ -24,19 +24,19 @@ jobs:
     strategy:
       matrix:
         include:
-          #          - os: ubuntu-latest
-          #            cmd: --build=missing
-          #          - os: windows-latest
-          #            cmd: --build=missing
-          #          - toolchain: mingw-w64/8.1
-          #            os: windows-latest
-          #            cmd: --build=missing
-          #          - toolchain: mingw-w64/8.1
-          #            os: windows-latest
-          #            cmd: --build=missing -o boost:without_stacktrace=True
-          #          - toolchain: mingw-w64/8.1
-          #            os: windows-latest
-          #            cmd: --build=missing -o boost:without_fiber=True
+          - os: ubuntu-latest
+            cmd: --build=missing
+          - os: windows-latest
+            cmd: --build=missing
+          - toolchain: mingw-w64/8.1
+            os: windows-latest
+            cmd: --build=missing
+          - toolchain: mingw-w64/8.1
+            os: windows-latest
+            cmd: --build=missing -o boost:without_stacktrace=True
+          - toolchain: mingw-w64/8.1
+            os: windows-latest
+            cmd: --build=missing -o boost:without_fiber=True
           - toolchain: mingw-w64/8.1
             os: windows-latest
             cmd: --build=missing -o boost:without_fiber=True
@@ -52,22 +52,15 @@ jobs:
         shell: bash
       - run: pip3 install conan
       - name: 'Toolchain'
-        run: |
-          conan install "${{ matrix.toolchain }}@" -g virtualenv
-          source activate.sh
-          conan profile new default --detect --force
-          sed -i 's/.build_requires.//' ~/.conan/profiles/default
-          echo "[build_requires]" >> ~/.conan/profiles/default
-          echo "mingw-w64/8.1" >> ~/.conan/profiles/default
-          conan profile show default
-        shell: bash
+        run: conan install "${{ matrix.toolchain }}@" -g virtualenv
         if: ${{ matrix.toolchain != '' }}
-      #      - run: conan create . boost/1.71.0@ ${{ matrix.cmd }}
       - run: |
-          where cmake
-          cmake --version
-          which cmake
-      - run: |
-          cmake --version
-          which cmake
+          du -a
+          if test -f activate.sh; then
+            echo "ACTIVATE!"
+            source activate.sh
+          fi
+          which g++
+          conan create . boost/1.71.0@ ${{ matrix.cmd }}
+        name: conan create . boost/1.71.0@ ${{ matrix.cmd }}
         shell: bash
