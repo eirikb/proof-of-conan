@@ -65,9 +65,9 @@ jobs:
       #      - run: conan create . boost/1.71.0@ ${{ matrix.cmd }}
       - run: |
           where cmake
-          cmake --verison
+          cmake --version
           which cmake
       - run: |
-          cmake --verison
+          cmake --version
           which cmake
         shell: bash
