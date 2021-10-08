@@ -30,7 +30,6 @@ jobs:
         shell: bash
       - run: mv repo/all/* .
         shell: bash
-      - run: echo ${{ matrix }}
       - run: pip3 install conan
       - name: 'Install toolchain'
         run: conan install "mingw-w64/8.1@" -g virtualenv
