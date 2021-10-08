@@ -24,19 +24,19 @@ jobs:
     strategy:
       matrix:
         include:
-#          - os: ubuntu-latest
-#            cmd: --build=missing
-#          - os: windows-latest
-#            cmd: --build=missing
-#          - toolchain: mingw-w64/8.1
-#            os: windows-latest
-#            cmd: --build=missing
-#          - toolchain: mingw-w64/8.1
-#            os: windows-latest
-#            cmd: --build=missing -o boost:without_stacktrace=True
-#          - toolchain: mingw-w64/8.1
-#            os: windows-latest
-#            cmd: --build=missing -o boost:without_fiber=True
+          #          - os: ubuntu-latest
+          #            cmd: --build=missing
+          #          - os: windows-latest
+          #            cmd: --build=missing
+          #          - toolchain: mingw-w64/8.1
+          #            os: windows-latest
+          #            cmd: --build=missing
+          #          - toolchain: mingw-w64/8.1
+          #            os: windows-latest
+          #            cmd: --build=missing -o boost:without_stacktrace=True
+          #          - toolchain: mingw-w64/8.1
+          #            os: windows-latest
+          #            cmd: --build=missing -o boost:without_fiber=True
           - toolchain: mingw-w64/8.1
             os: windows-latest
             cmd: --build=missing -o boost:without_fiber=True
@@ -62,8 +62,8 @@ jobs:
           conan profile show default
         shell: bash
         if: ${{ matrix.toolchain != '' }}
-#      - run: conan create . boost/1.71.0@ ${{ matrix.cmd }}
-       - run: |
-           where cmake
-           cmake --verison
-           which cmake
+      #      - run: conan create . boost/1.71.0@ ${{ matrix.cmd }}
+      - run: |
+          where cmake
+          cmake --verison
+          which cmake
