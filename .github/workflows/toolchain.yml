@@ -20,8 +20,28 @@ jobs:
           path: recipes/boost
 
   _:
-    runs-on: windows-latest
     needs: checkout
+    strategy:
+      matrix:
+        includes:
+          - os: ubuntu-latest
+            cmd: --build=missing
+          - os: windows-latest
+            cmd: --build=missing
+          - toolchain: mingw-w64/8.1
+            os: windows-latest
+            cmd: --build=missing
+          - toolchain: mingw-w64/8.1
+            os: windows-latest
+            cmd: --build=missing -o boost:without_stacktrace=True
+          - toolchain: mingw-w64/8.1
+            os: windows-latest
+            cmd: --build=missing -o boost:without_fiber=True
+          - toolchain: mingw-w64/8.1
+            os: windows-latest
+            cmd: --build=missing -o boost:without_fiber=True -o boost:without_stacktrace=True
+    runs-on: ${{ matrix.os }}
+    continue-on-error: true
     steps:
       - uses: actions/download-artifact@v1
         with:
@@ -33,7 +53,7 @@ jobs:
       - run: pip3 install conan
       - name: 'Toolchain'
         run: |
-          conan install "mingw-w64/8.1@" -g virtualenv
+          conan install "${{ matrix.toolchain }}@" -g virtualenv
           source activate.sh
           conan profile new default --detect --force
           sed -i 's/.build_requires.//' ~/.conan/profiles/default
@@ -41,4 +61,5 @@ jobs:
           echo "mingw-w64/8.1" >> ~/.conan/profiles/default
           conan profile show default
         shell: bash
-      - run: conan create . boost/1.71.0@ --build=missing
+        if: ${{ matrix.toolchain }} !== ''
+      - run: conan create . boost/1.71.0@ ${{ matrix.cmd }}
