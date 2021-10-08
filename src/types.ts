@@ -10,6 +10,7 @@ export interface Job {
   os: string;
   container: string;
   toolchain: string;
+  toolchainos: string;
   conancmd: string;
   path: string;
 }
