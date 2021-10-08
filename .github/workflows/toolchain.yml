@@ -31,10 +31,9 @@ jobs:
       - run: mv repo/all/* .
         shell: bash
       - run: pip3 install conan
-      - name: 'Install toolchain'
-        run: conan install "mingw-w64/8.1@" -g virtualenv
-      - name: 'Enable toolchain'
+      - name: 'Toolchain'
         run: |
+          conan install "mingw-w64/8.1@" -g virtualenv
           source activate.sh
           conan profile new default --detect --force
           sed -i 's/\(.build_requires.\)/\1\nmingw-w64\/8.1/' ~/.conan/profiles/default
