@@ -11,7 +11,6 @@ function updateCmds() {
           os: target.os,
           container: target.container,
           toolchain: target.toolchain,
-          toolchainos: target.os.match(/windows/i) ? "windows" : "lunix",
           path: version.path,
           conancmd: `create . ${data.package}/${version.tag}@ ${target.cmd}`,
         }))
