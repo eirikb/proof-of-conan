@@ -34,6 +34,7 @@ jobs:
     needs: checkout
     strategy:
       matrix: ${{fromJson(github.event.inputs.targets)}}
+    continue-on-error: true
     steps:
       # Yes I understand this check doesn't mean much when I'm anyway going
       # to run random python-scripts, but at least those need an account.
@@ -49,25 +50,30 @@ jobs:
       - uses: actions/download-artifact@v1
         with:
           name: repo
+
       - run: du -a
         shell: bash
+
       - run: mv repo/${{ matrix.path }}/* .
         shell: bash
-      - run: echo ${{ matrix }}
+
       - run: pip3 install conan
-      - name: 'Install toolchain'
+
+      - run: conan install "${{ matrix.toolchain }}" -g virtualenv
         if: ${{ matrix.toolchain != '' }}
-        run: conan install "${{ matrix.toolchain }}" -g virtualenv
-      - name: 'Enable toolchain in Windows'
-        if: ${{ matrix.toolchain != '' && matrix.toolchainos == 'windows' }}
-        run: . .\activate.ps1
-      - name: 'Enable toolchain in Linux'
-        if: ${{ matrix.toolchain != '' && matrix.toolchainos == 'lunix' }}
-        run: source activate.sh
-      - name: 'Reset profile'
-        if: ${{ matrix.toolchain != '' }}
-        run: conan profile new default --detect --force
-      - run: which g++
+
+      - run: |
+          du -a
+          if test -f activate.sh; then
+            echo "ACTIVATE!"
+            source activate.sh
+          fi
+          which g++
+          conan profile new default --detect --force
+          conan ${{ matrix.conancmd }}
+        name: conan ${{ matrix.conancmd }}
+        shell: bash
+
       - run: conan ${{ matrix.conancmd }}
         if: ${{ matrix.container == '' }}
         # Must be root? How else to use /build, and can't use ~ since we don't know the user
