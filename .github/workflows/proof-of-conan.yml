@@ -68,6 +68,7 @@ jobs:
             source activate.sh
           fi
           which g++
+          conan profile update default --detect --force
           conan ${{ matrix.conancmd }}
         name: conan ${{ matrix.conancmd }}
         shell: bash
