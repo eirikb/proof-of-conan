@@ -34,6 +34,7 @@ jobs:
     needs: checkout
     strategy:
       matrix: ${{fromJson(github.event.inputs.targets)}}
+    continue-on-error: true
     steps:
       # Yes I understand this check doesn't mean much when I'm anyway going
       # to run random python-scripts, but at least those need an account.
@@ -68,7 +69,7 @@ jobs:
             source activate.sh
           fi
           which g++
-          conan profile update default --detect --force
+          conan profile new default --detect --force
           conan ${{ matrix.conancmd }}
         name: conan ${{ matrix.conancmd }}
         shell: bash
