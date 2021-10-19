@@ -17,12 +17,11 @@ jobs:
   checkout:
     runs-on: ubuntu-latest
     steps:
-      - run: echo here we go
-      - uses: actions/checkout@v2
       - name: Checkout
         uses: actions/checkout@v2
         with:
           repository: ${{ github.event.inputs.repository }}
+          ref: ${{ github.event.inputs.ref }}
 
       - uses: actions/upload-artifact@v1
         with:
