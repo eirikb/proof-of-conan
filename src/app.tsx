@@ -49,8 +49,8 @@ init(
         <a href="https://github.com/conan-io/conan-center-index/tree/master/recipes">
           conan-center-index
         </a>{" "}
-        or <a href="https://conan.io/center/">ConanCenter</a>
-        for packages. Yes you can point to your own repo.
+        or <a href="https://conan.io/center/">ConanCenter</a> for packages. Yes
+        you can point to your own repo.
       </div>
     </form>
     <span>{don(path().lookupInfo)}</span>
@@ -212,12 +212,11 @@ init(
           </tbody>
         </table>
         <div>
-          For example docker containers please see
+          For example docker containers please see{" "}
           <a href="https://github.com/conan-io/conan-docker-tools">
             conan-docker-tools
           </a>{" "}
-          and
-          <a href="https://github.com/dockcross/dockcross">dockcross</a>
+          and <a href="https://github.com/dockcross/dockcross">dockcross</a>
         </div>
       </fieldset>
 
