@@ -62,7 +62,7 @@ jobs:
       - run: pip3 install conan
 
       - run: conan install "${{ matrix.toolchain }}" -g virtualenv
-        if: ${{ matrix.toolchain != '' }}
+        if: ${{ matrix.toolchain != '' && matrix.container == '' }}
 
       - run: |
           du -a
@@ -75,9 +75,8 @@ jobs:
           conan ${{ matrix.conancmd }}
         name: conan ${{ matrix.conancmd }}
         shell: bash
-
-      - run: conan ${{ matrix.conancmd }}
         if: ${{ matrix.container == '' }}
+
         # Must be root? How else to use /build, and can't use ~ since we don't know the user
       - run: docker run --rm -i -v "$PWD:/build" -u root -w /build "${{ matrix.container }}" conan ${{ matrix.conancmd }}
         if: ${{ matrix.container != '' }}
