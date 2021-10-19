@@ -6,6 +6,9 @@ on:
       repository:
         required: true
         description: 'x'
+      ref:
+        required: true
+        description: 'x'
       path:
         required: true
         description: 'x'
