@@ -62,7 +62,7 @@ jobs:
       - run: pip3 install conan
 
       - run: conan install "${{ matrix.toolchain }}" -g virtualenv
-        if: ${{ matrix.toolchain != '' }}
+        if: ${{ matrix.toolchain != '' && matrix.container == '' }}
 
       - run: |
           du -a
