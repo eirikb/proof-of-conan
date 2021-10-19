@@ -41,6 +41,7 @@ export async function start() {
   const res = await fetch("https://proof-of-conan.azureedge.net", {
     method: "POST",
     body: JSON.stringify({
+      ref: "main",
       inputs: {
         repository: data.repository,
         path: data.path,
