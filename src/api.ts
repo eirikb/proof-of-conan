@@ -45,6 +45,7 @@ export async function start() {
       inputs: {
         repository: data.repository,
         path: data.path,
+        ref: data.branch,
         targets: JSON.stringify({
           include: data.jobs,
         }),
