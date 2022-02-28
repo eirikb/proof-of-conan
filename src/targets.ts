@@ -1,38 +1,38 @@
 export default [
   {
     os: "ubuntu-latest",
-    cmd: "--build=missing",
+    cmd: "--build=outdated",
     enabled: true,
   },
   {
     os: "windows-latest",
-    cmd: "--build=missing",
+    cmd: "--build=outdated",
     enabled: true,
   },
   {
     os: "windows-latest",
-    toolchain: "mingw-w64/8.1@",
-    cmd: "--build=missing",
+    toolchain: "mingw-builds/11.2.0@",
+    cmd: "--build=outdated",
     enabled: true,
   },
   {
     os: "ubuntu-latest",
-    cmd: "--build=missing -s compiler.libcxx=libstdc++11",
+    cmd: "--build=outdated -s compiler.libcxx=libstdc++11",
     enabled: true,
   },
   {
     os: "macos-latest",
-    cmd: "--build=missing",
+    cmd: "--build=outdated",
     enabled: true,
   },
   {
     os: "ubuntu-latest",
     container: "conanio/gcc9-armv7hf",
-    cmd: "--build=missing",
+    cmd: "--build=outdated",
   },
   {
     os: "ubuntu-latest",
     container: "conanio/gcc9",
-    cmd: "--build=missing",
+    cmd: "--build=outdated",
   },
 ];
