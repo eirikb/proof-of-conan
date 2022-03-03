@@ -28,7 +28,7 @@ export default [
   {
     os: "ubuntu-latest",
     container: "conanio/gcc9-armv7hf",
-    cmd: "--build=outdated",
+    cmd: "--build=outdated -s:h arch=armv7hf",
   },
   {
     os: "ubuntu-latest",
