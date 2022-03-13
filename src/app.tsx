@@ -1,4 +1,4 @@
-import { React, init, data, don, on, path } from "./domdom";
+import { React, init, set, data, don, on, path } from "./domdom";
 import { lookup, start } from "./api";
 
 function updateCmds() {
@@ -40,7 +40,7 @@ init(
         await lookup();
       }}
     >
-      URL to your package in a GitHub repository:
+      URL to package in a GitHub repository:
       <input bind={path().repoUrl.$path} type="text" size="80" />
       <br />
       <button>Lookup</button>
@@ -114,6 +114,28 @@ init(
       </fieldset>
       <fieldset>
         <legend>Version</legend>
+        <div>
+          <button
+            type="button"
+            onclick={() => {
+              data.versions.forEach((v, i) => {
+                set(`versions.${i}.selected`, true);
+              });
+            }}
+          >
+            Select all
+          </button>
+          <button
+            type="button"
+            onclick={() => {
+              data.versions.forEach((v, i) => {
+                set(`versions.${i}.selected`, false);
+              });
+            }}
+          >
+            Unselect all
+          </button>
+        </div>
         {don(path().versions.$).map((version) => (
           <div>
             <label>
