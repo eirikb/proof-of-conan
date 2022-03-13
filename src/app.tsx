@@ -200,7 +200,7 @@ init(
                       os: "ubuntu-latest",
                       container: "",
                       toolchain: "",
-                      cmd: "--build=missing",
+                      cmd: "--build=outdated",
                       enabled: true,
                     })
                   }
