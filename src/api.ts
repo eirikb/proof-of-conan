@@ -7,10 +7,11 @@ export async function lookup() {
     let parts = data.repoUrl.split("/");
     if (parts[parts.length - 1].includes(".")) parts = parts.slice(0, -1);
 
+    const pathStart = parts.length - 2;
     data.repository = parts.slice(3, 5).join("/");
-    data.path = parts.slice(7, parts.length).join("/");
+    data.path = parts.slice(pathStart, parts.length).join("/");
     data.package = parts[parts.length - 1];
-    data.branch = parts[6];
+    data.branch = parts.slice(6, pathStart).join("/");
     data.lookupInfo = "Looking up versions...";
     data.formHidden = true;
     const res = await fetch(
