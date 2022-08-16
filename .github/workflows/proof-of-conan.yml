@@ -72,8 +72,8 @@ jobs:
           fi
           which g++
           conan profile new default --detect --force
-          conan ${{ matrix.conancmd }}
-        name: conan ${{ matrix.conancmd }} -c tools.system.package_manager:mode=install -c tools.system.package_manager:sudo=True
+          conan ${{ matrix.conancmd }} -c tools.system.package_manager:mode=install -c tools.system.package_manager:sudo=True
+        name: conan ${{ matrix.conancmd }}
         shell: bash
         if: ${{ matrix.container == '' }}
         env:
