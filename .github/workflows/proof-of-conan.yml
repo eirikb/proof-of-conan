@@ -79,5 +79,5 @@ jobs:
         env:
           CONAN_SYSREQUIRES_MODE: enabled
         # Must be root? How else to use /build, and can't use ~ since we don't know the user
-      - run: docker run --rm -i -e CONAN_SYSREQUIRES_MODE=enabled -v "$PWD:/build" -u root -w /build "${{ matrix.container }}" conan ${{ matrix.conancmd }} -c tools.system.package_manager:mode=install
+      - run: docker run --rm -i -e CONAN_SYSREQUIRES_MODE=enabled -v "$PWD:/build" -u root -w /build "${{ matrix.container }}" conan ${{ matrix.conancmd }} -c tools.system.package_manager:mode=install -c tools.system.package_manager:sudo=True
         if: ${{ matrix.container != '' }}
