@@ -46,7 +46,7 @@ jobs:
             ("" | *[!abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890./@\-\ =+\'_:]*)
               echo "NOT ALLOWED" && exit 1;;
             (*)
-              echo "::set-output name=test::${{ matrix.conancmd }}";;
+              echo "test=${{ matrix.conancmd }}" >> $GITHUB_OUTPUT;;
           esac
         shell: bash
       - uses: actions/download-artifact@v3
