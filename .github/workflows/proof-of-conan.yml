@@ -59,8 +59,12 @@ jobs:
 
       - run: mv repo/${{ matrix.path }}/* .
         shell: bash
-
-      - run: pip3 install conan
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.8"
+          cache: 'pip'
+      - run: pip3 install -r requirements.txt
 
       - run: conan install "${{ matrix.toolchain }}" -g virtualenv
         if: ${{ matrix.toolchain != '' && matrix.container == '' }}
