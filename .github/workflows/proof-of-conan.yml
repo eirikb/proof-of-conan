@@ -37,6 +37,8 @@ jobs:
     strategy:
       matrix: ${{fromJson(github.event.inputs.targets)}}
     continue-on-error: true
+    env:
+      NOT_ON_C3I: 1
     steps:
       # Yes I understand this check doesn't mean much when I'm anyway going
       # to run random python-scripts, but at least those need an account.
