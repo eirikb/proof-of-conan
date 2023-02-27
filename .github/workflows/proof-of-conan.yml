@@ -71,7 +71,7 @@ jobs:
           cache-dependency-path: 'proof-of-conan/requirements.txt'
       - run: pip3 install -r proof-of-conan/requirements.txt
 
-      - run: conan install "${{ matrix.toolchain }}" -g virtualenv
+      - run: conan install --requires=${{ matrix.toolchain }} -g virtualenv
         if: ${{ matrix.toolchain != '' && matrix.container == '' }}
 
       - run: |

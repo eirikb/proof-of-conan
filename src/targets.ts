@@ -11,7 +11,7 @@ export default [
   },
   {
     os: "windows-latest",
-    toolchain: "mingw-builds/11.2.0@",
+    toolchain: "mingw-builds/11.2.0",
     cmd: "--build=outdated",
     enabled: true,
   },
