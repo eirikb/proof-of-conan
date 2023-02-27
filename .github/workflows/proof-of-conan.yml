@@ -71,6 +71,10 @@ jobs:
           cache-dependency-path: 'proof-of-conan/requirements.txt'
       - run: pip3 install -r proof-of-conan/requirements.txt
 
+      - run: conan profile detect --force
+        shell: bash
+        if: ${{ matrix.container == '' }}
+
       - run: conan install --requires=${{ matrix.toolchain }} -g virtualenv
         if: ${{ matrix.toolchain != '' && matrix.container == '' }}
 
@@ -81,7 +85,6 @@ jobs:
             source activate.sh
           fi
           which g++
-          conan profile detect --force
           conan ${{ matrix.conancmd }} -c tools.system.package_manager:mode=install -c tools.system.package_manager:sudo=True
         name: conan ${{ matrix.conancmd }}
         shell: bash
