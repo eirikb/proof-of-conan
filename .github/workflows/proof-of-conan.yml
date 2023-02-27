@@ -81,7 +81,7 @@ jobs:
             source activate.sh
           fi
           which g++
-          conan profile new default --detect --force
+          conan profile detect --force
           conan ${{ matrix.conancmd }} -c tools.system.package_manager:mode=install -c tools.system.package_manager:sudo=True
         name: conan ${{ matrix.conancmd }}
         shell: bash
