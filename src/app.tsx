@@ -12,7 +12,7 @@ function updateCmds() {
           container: target.container,
           toolchain: target.toolchain,
           path: version.path,
-          conancmd: `create . ${data.package}/${version.tag}@ ${target.cmd}`,
+          conancmd: `create --name ${data.package} --version ${version.tag} ${target.cmd} .`,
         }))
     );
 }
