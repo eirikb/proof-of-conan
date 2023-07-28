@@ -21,7 +21,7 @@ export default [
     enabled: true,
   },
   {
-    os: "macos-latest",
+    os: "macos-11",
     cmd: "--build=outdated",
     enabled: true,
   },
