@@ -20,6 +20,12 @@ jobs:
   checkout:
     runs-on: ubuntu-latest
     steps:
+      - run: |
+          echo "Building Conan Package" >> $GITHUB_STEP_SUMMARY
+          echo "- repo: ${{ github.event.inputs.repository }}" >> $GITHUB_STEP_SUMMARY
+          echo "- gitref: ${{ github.event.inputs.ref }}" >> $GITHUB_STEP_SUMMARY
+          echo "- path: ${{ github.event.inputs.path }}" >> $GITHUB_STEP_SUMMARY
+
       - name: Checkout
         uses: actions/checkout@v3
         with:
@@ -70,6 +76,11 @@ jobs:
           cache: 'pip'
           cache-dependency-path: 'proof-of-conan/requirements.txt'
       - run: pip3 install -r proof-of-conan/requirements.txt
+
+      - name: set conan home
+        if: ${{ runner.os == 'Windows' }}
+        shell: bash
+        run: echo "CONAN_HOME=${{ runner.temp }}\\.c2" >> $GITHUB_ENV
 
       - run: conan profile detect --force
         shell: bash
