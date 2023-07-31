@@ -56,7 +56,7 @@ jobs:
       - run: |
           # https://unix.stackexchange.com/a/498744
           case "$CONAN_CMD" in
-            ("" | *[!abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890./@\-\ =+\'_:]*)
+            ("" | *[!abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890./@\-\ =+\'_:*]*)
               echo "NOT ALLOWED" && exit 1;;
             (*)
               echo "test=$CONAN_CMD" >> $GITHUB_OUTPUT;;
