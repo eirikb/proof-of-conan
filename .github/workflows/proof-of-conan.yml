@@ -90,13 +90,11 @@ jobs:
             source activate.sh
           fi
           which g++
-          conan $CONAN_CMD -c tools.system.package_manager:mode=install -c tools.system.package_manager:sudo=True
+          conan $CONAN_CMD -c:a tools.system.package_manager:mode=install -c:a tools.system.package_manager:sudo=True
         name: conan ${{ matrix.conancmd }}
         shell: bash
         if: ${{ matrix.container == '' }}
-        env:
-          CONAN_SYSREQUIRES_MODE: enabled
 
         # Must be root? How else to use /build, and can't use ~ since we don't know the user
-      - run: docker run --rm -i -e CONAN_SYSREQUIRES_MODE=enabled -v "$PWD:/build" -u root -w /build "$CONTAINER" conan $CONAN_CMD -c tools.system.package_manager:mode=install -c tools.system.package_manager:sudo=True
+      - run: docker run --rm -i -v "$PWD:/build" -u root -w /build "$CONTAINER" conan $CONAN_CMD -c:a tools.system.package_manager:mode=install -c:a tools.system.package_manager:sudo=True
         if: ${{ matrix.container != '' }}
