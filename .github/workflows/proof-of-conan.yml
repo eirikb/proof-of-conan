@@ -83,7 +83,6 @@ jobs:
           [[ "$RUNNER_OS" == "Windows" ]] && PY="$(cygpath -u "$PY")"
           "$PY" -c "import sysconfig; print(sysconfig.get_path('scripts'))" >> "$GITHUB_PATH"
           cat "$GITHUB_PATH"
-          echo "PYTHON3_PATH=$(dirname "${{ steps.setup-python.outputs.python-path }}")" >> "$GITHUB_ENV"
 
       - name: set conan home
         if: ${{ runner.os == 'Windows' }}
