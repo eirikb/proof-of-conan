@@ -73,16 +73,22 @@ jobs:
           update-environment: false
       - run: ${{ steps.setup-python.outputs.python-path }} -m pip install -r proof-of-conan/requirements.txt
 
+      - name: export conan to $PATH
+        shell: bash
+        run: |
+          PY="${{ steps.setup-python.outputs.python-path }}"
+          [[ "$RUNNER_OS" == "Windows" ]] && PY="$(cygpath -u "$PY")"
+          "$PY" -c "import sysconfig; print(sysconfig.get_path('scripts'))" >> "$GITHUB_PATH"
+
       - name: set conan home
         if: ${{ runner.os == 'Windows' }}
         shell: bash
         run: echo "CONAN_HOME=${{ runner.temp }}\\.c2" >> $GITHUB_ENV
 
-      - run: ${{ steps.setup-python.outputs.python-path }} -m conan profile detect --force
-        shell: bash
+      - run: conan profile detect --force
         if: ${{ matrix.container == '' }}
 
-      - run: ${{ steps.setup-python.outputs.python-path }} -m conan install --requires=${{ matrix.toolchain }} -g virtualenv -c:a="tools.system.pyenv:python_inter=${{ steps.setup-python.outputs.python-path }}"
+      - run: conan install --requires=${{ matrix.toolchain }} -g virtualenv -c:a="tools.system.pyenv:python_inter=${{ steps.setup-python.outputs.python-path }}"
         if: ${{ matrix.toolchain != '' && matrix.container == '' }}
 
       - run: |
