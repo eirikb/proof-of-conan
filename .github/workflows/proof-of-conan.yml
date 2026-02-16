@@ -80,6 +80,7 @@ jobs:
           PY="${{ steps.setup-python.outputs.python-path }}"
           [[ "$RUNNER_OS" == "Windows" ]] && PY="$(cygpath -u "$PY")"
           "$PY" -c "import sysconfig; print(sysconfig.get_path('scripts'))" >> "$GITHUB_PATH"
+          cat "$GITHUB_PATH"
 
       - name: set conan home
         if: ${{ runner.os == 'Windows' }}
@@ -89,9 +90,11 @@ jobs:
       - name: Windows Environment
         if: ${{ runner.os == 'Windows' }}
         run: |
-          set
-          where python
-          where python3
+          Get-ChildItem Env:
+          where.exe python
+          Get-Command python
+          where.exe python3
+          Get-Command python3
 
       - name: Linux/Macos Environment
         if: ${{ runner.os != 'Windows' }}
