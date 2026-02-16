@@ -65,22 +65,24 @@ jobs:
         with:
           path: proof-of-conan
       - uses: actions/setup-python@v6
+        id: setup-python
         with:
           python-version: "3.12"
           cache: 'pip'
           cache-dependency-path: 'proof-of-conan/requirements.txt'
-      - run: pip3 install -r proof-of-conan/requirements.txt
+          update-environment: false
+      - run: ${{ steps.setup-python.outputs.python-path }} -m pip3 install -r proof-of-conan/requirements.txt
 
       - name: set conan home
         if: ${{ runner.os == 'Windows' }}
         shell: bash
         run: echo "CONAN_HOME=${{ runner.temp }}\\.c2" >> $GITHUB_ENV
 
-      - run: conan profile detect --force
+      - run: ${{ steps.setup-python.outputs.python-path }} -m conan profile detect --force
         shell: bash
         if: ${{ matrix.container == '' }}
 
-      - run: conan install --requires=${{ matrix.toolchain }} -g virtualenv
+      - run: ${{ steps.setup-python.outputs.python-path }} -m conan install --requires=${{ matrix.toolchain }} -g virtualenv -c:a="tools.system.pyenv:python_inter=${{ steps.setup-python.outputs.python-path }}"
         if: ${{ matrix.toolchain != '' && matrix.container == '' }}
 
       - run: |
