@@ -71,7 +71,7 @@ jobs:
           cache: 'pip'
           cache-dependency-path: 'proof-of-conan/requirements.txt'
           update-environment: false
-      - run: ${{ steps.setup-python.outputs.python-path }} -m pip3 install -r proof-of-conan/requirements.txt
+      - run: ${{ steps.setup-python.outputs.python-path }} -m pip install -r proof-of-conan/requirements.txt
 
       - name: set conan home
         if: ${{ runner.os == 'Windows' }}
