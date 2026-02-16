@@ -71,6 +71,7 @@ jobs:
           cache: 'pip'
           cache-dependency-path: 'proof-of-conan/requirements.txt'
           update-environment: false
+
       - run: ${{ steps.setup-python.outputs.python-path }} -m pip install -r proof-of-conan/requirements.txt
 
       - name: export conan to $PATH
@@ -85,6 +86,20 @@ jobs:
         shell: bash
         run: echo "CONAN_HOME=${{ runner.temp }}\\.c2" >> $GITHUB_ENV
 
+      - name: Windows Environment
+        if: ${{ runner.os == 'Windows' }}
+        run: |
+          set
+          where python
+          where python3
+
+      - name: Linux/Macos Environment
+        if: ${{ runner.os != 'Windows' }}
+        run: |
+          printenv
+          which python
+          which python3
+        
       - run: conan profile detect --force
         if: ${{ matrix.container == '' }}
 
