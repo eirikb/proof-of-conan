@@ -88,7 +88,7 @@ jobs:
       - run: conan profile detect --force
         if: ${{ matrix.container == '' }}
 
-      - run: conan install --requires=${{ matrix.toolchain }} -g virtualenv -c:a="tools.system.pyenv:python_interpreter=${{ steps.setup-python.outputs.python-path }}"
+      - run: conan install --requires=${{ matrix.toolchain }} -g virtualenv -c:a="tools.system.pyenv:python_interpreter=${{ steps.setup-python.outputs.python-path }}" -c:a="tools.system.pipenv:python_interpreter=${{ steps.setup-python.outputs.python-path }}"
         if: ${{ matrix.toolchain != '' && matrix.container == '' }}
 
       - run: |
@@ -98,7 +98,7 @@ jobs:
             source activate.sh
           fi
           which g++
-          conan $CONAN_CMD -c:a tools.system.package_manager:mode=install -c:a tools.system.package_manager:sudo=True -c:a="tools.system.pyenv:python_interpreter=${{ steps.setup-python.outputs.python-path }}"
+          conan $CONAN_CMD -c:a tools.system.package_manager:mode=install -c:a tools.system.package_manager:sudo=True -c:a="tools.system.pyenv:python_interpreter=${{ steps.setup-python.outputs.python-path }}" -c:a="tools.system.pipenv:python_interpreter=${{ steps.setup-python.outputs.python-path }}"
         name: conan ${{ matrix.conancmd }}
         shell: bash
         if: ${{ matrix.container == '' }}
