@@ -72,7 +72,9 @@ jobs:
           cache-dependency-path: 'proof-of-conan/requirements.txt'
           update-environment: false
 
-      - run: ${{ steps.setup-python.outputs.python-path }} -m pip install -r proof-of-conan/requirements.txt
+      - run: |
+          ${{ steps.setup-python.outputs.python-path }} -m pip install -r proof-of-conan/requirements.txt
+          ${{ steps.setup-python.outputs.python-path }} -m pip show conan -f
 
       - name: export conan to $PATH
         shell: bash
@@ -91,17 +93,21 @@ jobs:
         if: ${{ runner.os == 'Windows' }}
         run: |
           Get-ChildItem Env:
+          echo $env:path
           where.exe python
           Get-Command python
           where.exe python3
           Get-Command python3
+          ${{ steps.setup-python.outputs.python-path }} -m pip show conan -f
 
       - name: Linux/Macos Environment
         if: ${{ runner.os != 'Windows' }}
         run: |
           printenv
+          echo $PATH
           which python
           which python3
+          ${{ steps.setup-python.outputs.python-path }} -m pip show conan -f
         
       - run: conan profile detect --force
         if: ${{ matrix.container == '' }}
