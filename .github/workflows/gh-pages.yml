@@ -18,7 +18,7 @@ jobs:
       - run: ./node_modules/.bin/parcel build src/index.html --public-url .
 
       - name: GitHub Pages
-        uses: crazy-max/ghaction-github-pages@v4
+        uses: crazy-max/ghaction-github-pages@v5
         with:
           build_dir: dist
         env:
