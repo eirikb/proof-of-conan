@@ -4,7 +4,7 @@
   },
   "dependencies": {
     "@eirikb/domdom": "^9.1.0",
-    "js-yaml": "^4.1.1"
+    "js-yaml": "^4.2.0"
   },
   "devDependencies": {
     "parcel": "^2.16.4"
